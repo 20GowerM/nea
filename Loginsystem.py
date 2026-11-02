@@ -1,6 +1,19 @@
 import hashlib
 def signup():
-    email = input('Enter email address: ')
+    email = input('Enter email address: ').strip()
+    while True:
+        try:
+            with open('credentials.txt', 'r') as f:
+                stored_email = f.readline().strip()
+        except FileNotFoundError:
+            break
+
+        if email.casefold() != stored_email.casefold():
+            break
+
+        print('That email already exists. Please try another one.')
+        email = input('Enter email address: ').strip()
+
     pwd = input('Enter password: ')
     conf_pwd = input('Confirm password: ')
     if conf_pwd == pwd:
@@ -23,7 +36,7 @@ def login():
     f.close()
     if email == stored_email and auth_hash == stored_pwd:
          print('Logged in Successfully!')
-     else:
+    else:
          print('Login failed! \n')
 while 1:
     print('********** Login System **********')
